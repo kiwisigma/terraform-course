@@ -25,14 +25,14 @@ Each lab folder is a self-contained Terraform configuration (`main.tf`, `provide
 
 ---
 
-## [lab_02_create_resource_group_vnet](labs/lab_02_create_resource_group_vnet) — First Resource Group + VNet
+## Labs Overview
 
-Resource group + vnet, `10.0.0.0/16`, East US.
+Below are the labs in this repo. Each link points to that lab's folder.
 
-## [lab_03_update_address_space](labs/lab_03_update_address_space) — Address Space + Tag Update
+| # | Lab Name | Link |
+|---|---|---|
+| 02 | Create Resource Group + VNet | [lab_02_create_resource_group_vnet](labs/lab_02_create_resource_group_vnet) |
+| 03 | Update Address Space + Tags | [lab_03_update_address_space](labs/lab_03_update_address_space) |
+| 003 | Built From Scratch (no walkthrough) | [lab_003_build_from_scratch](labs/lab_003_build_from_scratch) |
 
-Same shape as lab_02, address space updated in-place to `192.168.0.0/16`.
-
-## [lab_003_build_from_scratch](labs/lab_003_build_from_scratch) — Built From Scratch
-
-Same resource shapes as lab_02/lab_03, written independently without following the walkthrough — first lab done from memory. West US, `192.168.0.0/16`. Includes a [state file anatomy diagram](labs/lab_003_build_from_scratch/state-file-anatomy.drawio.png).
+**lab_003** also includes a [state file anatomy diagram](labs/lab_003_build_from_scratch/state-file-anatomy.drawio.png), written independently without following the course walkthrough — first lab done from memory.
