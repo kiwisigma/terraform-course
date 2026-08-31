@@ -1,10 +1,10 @@
 resource "azurerm_resource_group" "main" {
-  name     = "practice-walkthrough"
-  location = var.location
+  name     = "terraform-course"
+  location = "eastus"
 
   tags = {
     Name        = "terraform-course"
-    Enviornment = var.environment
+    Enviornment = "learning-terraform"
     Managed_By  = "Terraform"
   }
 }
@@ -13,12 +13,11 @@ resource "azurerm_virtual_network" "main" {
   name                = "terraform-network"
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
-  address_space       = var.vnet_address_space
+  address_space       = ["192.168.0.0/16"]
 
   tags = {
-    Name        = "terraform"
-    Enviornment = var.environment
+    Name        = "terraform-course"
+    Enviornment = "learning-terraform"
     Managed_By  = "Terraform"
   }
-
 }

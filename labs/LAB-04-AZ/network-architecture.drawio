@@ -1,0 +1,84 @@
+<mxfile host="app.diagrams.net" modified="2026-08-30T00:00:00.000Z" agent="claude-code" version="24.0.0" type="device">
+  <diagram name="LAB-04-AZ Network Architecture" id="lab04-network">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1650" pageHeight="920" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="LAB-04-AZ Network Architecture" style="text;html=1;fontSize=26;fontStyle=1;align=left;verticalAlign=top;fontColor=#211C2C;" vertex="1" parent="1">
+          <mxGeometry x="40" y="15" width="600" height="36" as="geometry" />
+        </mxCell>
+
+        <!-- Internet source -->
+        <mxCell id="internet" value="Internet / Any (*)" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontSize=13;fontStyle=1;strokeColor=#666666;fillColor=none;dashed=1;arcSize=40;" vertex="1" parent="1">
+          <mxGeometry x="900" y="70" width="200" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Resource Group outer box -->
+        <mxCell id="rg" value="RESOURCE GROUP: terraform-course (East US)" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;fontSize=14;fontStyle=1;fontColor=#666666;strokeColor=#888888;fillColor=none;spacing=12;arcSize=4;verticalLabelPosition=top;" vertex="1" parent="1">
+          <mxGeometry x="40" y="150" width="1560" height="740" as="geometry" />
+        </mxCell>
+
+        <!-- VNet box -->
+        <mxCell id="vnet" value="VIRTUAL NETWORK: terraform-network &#183; 10.0.0.0/16" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;fontSize=13;fontStyle=1;fontColor=#1F5FBF;strokeColor=#1F5FBF;fillColor=#F5F9FF;spacing=12;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="70" y="210" width="680" height="640" as="geometry" />
+        </mxCell>
+
+        <!-- Web subnet -->
+        <mxCell id="websubnet" value="SUBNET: web-subnet&#10;10.0.1.0/24" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;fontSize=13;fontStyle=1;fontColor=#1F5FBF;strokeColor=#1F5FBF;fillColor=#EEF3FB;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="100" y="270" width="620" height="140" as="geometry" />
+        </mxCell>
+
+        <!-- App subnet -->
+        <mxCell id="appsubnet" value="SUBNET: app-subnet&#10;10.0.2.0/24" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;fontSize=13;fontStyle=1;fontColor=#1F5FBF;strokeColor=#1F5FBF;fillColor=#EEF3FB;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="100" y="610" width="620" height="140" as="geometry" />
+        </mxCell>
+
+        <!-- Web NSG -->
+        <mxCell id="webnsg" value="NSG: web-nsg&#10;&#10;Allow-HTTP &#183; priority 100 &#183; TCP 80 &#183; source *&#10;&#10;Allow-HTTPS &#183; priority 110 &#183; TCP 443 &#183; source *" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;fontSize=12;fontFamily=Courier New;fontColor=#8A5A00;strokeColor=#D97706;fillColor=#FDF3E0;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="820" y="270" width="680" height="200" as="geometry" />
+        </mxCell>
+
+        <!-- App NSG -->
+        <mxCell id="appnsg" value="NSG: app-nsg&#10;&#10;Allow-Internal &#183; priority 100 &#183; TCP 8080&#10;source = 10.0.1.0/24 (web-subnet)" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;fontSize=12;fontFamily=Courier New;fontColor=#8A5A00;strokeColor=#D97706;fillColor=#FDF3E0;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="820" y="610" width="680" height="140" as="geometry" />
+        </mxCell>
+
+        <!-- Internet -> web-nsg -->
+        <mxCell id="e_internet" value="80, 443" style="html=1;strokeColor=#666666;fontColor=#666666;endArrow=block;fontSize=11;rounded=1;" edge="1" parent="1" source="internet" target="webnsg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- web-subnet -> web-nsg (association, structural) -->
+        <mxCell id="e_web_assoc" value="NSG association" style="html=1;strokeColor=#999999;fontColor=#999999;endArrow=block;dashed=1;fontSize=10;" edge="1" parent="1" source="websubnet" target="webnsg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- app-subnet -> app-nsg (association, structural) -->
+        <mxCell id="e_app_assoc" value="NSG association" style="html=1;strokeColor=#999999;fontColor=#999999;endArrow=block;dashed=1;fontSize=10;" edge="1" parent="1" source="appsubnet" target="appnsg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- web-subnet -> app-nsg (actual allowed traffic path) -->
+        <mxCell id="e_flow" value="TCP 8080 &#8212; allowed by Allow-Internal rule" style="html=1;strokeColor=#0F8A6B;fontColor=#0F8A6B;fontStyle=1;endArrow=block;strokeWidth=2;rounded=1;exitX=1;exitY=0.85;entryX=0;entryY=0.5;" edge="1" parent="1" source="websubnet" target="appnsg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Legend -->
+        <mxCell id="legend1" value="&#8212;&#8212;&#8594; structural (NSG association)" style="text;html=1;fontSize=11;fontColor=#999999;align=left;" vertex="1" parent="1">
+          <mxGeometry x="820" y="800" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend2" value="&#8212;&#8594; actual permitted traffic" style="text;html=1;fontSize=11;fontColor=#0F8A6B;fontStyle=1;align=left;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="800" width="260" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- Caption -->
+        <mxCell id="caption" value="Subnets attach to their NSG (gray, structural), but the rule that actually matters is Allow-Internal: it permits the web-subnet's CIDR through to the app-nsg on port 8080 &#8212; the real web-to-app traffic path (green)." style="text;html=1;fontSize=12;fontColor=#635D70;align=left;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="40" y="900" width="1500" height="20" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
